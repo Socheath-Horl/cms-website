@@ -95,14 +95,17 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 2.1.1 | Create AuthController | `api/app/Http/Controllers/Api/AuthController.php` | ⬜ |
-| 2.1.2 | Create register endpoint | Validates name, email, password; returns user + token | ⬜ |
-| 2.1.3 | Create login endpoint | Validates email, password; checks hash; returns user + token | ⬜ |
-| 2.1.4 | Create logout endpoint | Revokes current token via `currentAccessToken()->delete()` | ⬜ |
-| 2.1.5 | Create user endpoint | Returns `$request->user()` | ⬜ |
-| 2.1.6 | Create updateUser endpoint | Validates + updates name/email | ⬜ |
-| 2.1.7 | Add auth routes to api.php | POST register/login, GET user, POST logout, PUT user (all with sanctum middleware where needed) | ⬜ |
-| 2.1.8 | Test with curl | `curl -X POST ... /api/auth/register` → see token returned | ⬜ |
+| 2.1.1 | Create AuthController | `api/app/Http/Controllers/Api/AuthController.php` | ✅ |
+| 2.1.2 | Create register endpoint | Validates name, email, password; returns user + token | ✅ |
+| 2.1.3 | Create login endpoint | Validates email, password; checks hash; returns user + token | ✅ |
+| 2.1.4 | Create logout endpoint | Revokes current token via `currentAccessToken()->delete()` | ✅ |
+| 2.1.5 | Create user endpoint | Returns `$request->user()` | ✅ |
+| 2.1.6 | Create updateUser endpoint | Validates + updates name/email | ✅ |
+| 2.1.7 | Add auth routes to api.php | POST register/login, GET user, POST logout, PUT user (all with sanctum middleware where needed) | ✅ |
+| 2.1.8 | Test with curl | `curl -X POST ... /api/auth/register` → see token returned | ✅ |
+| 2.1.9 | Install Scramble API docs | `composer require dedoc/scramble`, publish config, register provider | ✅ |
+| 2.1.10 | Configure Bearer auth in docs | Enable `MiddlewareAuthSecurityStrategy` in `config/scramble.php` | ✅ |
+| 2.1.11 | Verify docs UI at /docs/api | `http://localhost:8000/docs/api` — Bearer token input visible, public/auth routes correctly tagged | ✅ |
 
 ---
 
