@@ -4,6 +4,7 @@ use App\Providers\AppServiceProvider;
 use Dedoc\Scramble\ScrambleServiceProvider;
 
 return [
-    AppServiceProvider::class,
-    ScrambleServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    Dedoc\Scramble\ScrambleServiceProvider::class,
+    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 ];

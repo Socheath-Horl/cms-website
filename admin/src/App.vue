@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuthStore } from './stores/auth'
 import Menubar from 'primevue/menubar'
+
+const auth = useAuthStore()
 
 const items = ref([
   { label: 'Dashboard', icon: 'pi pi-home', to: '/' },
@@ -13,7 +16,7 @@ const items = ref([
 
 <template>
   <div class="flex h-screen">
-    <aside class="w-60 bg-surface-800 text-white p-4 flex flex-col">
+    <aside v-if="auth.isAuthenticated" class="w-60 bg-surface-800 text-white p-4 flex flex-col">
       <h2 class="text-xl font-bold mb-6">CMS Admin</h2>
       <Menubar :model="items" class="flex-column border-none bg-transparent" />
     </aside>

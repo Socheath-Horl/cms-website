@@ -18,11 +18,11 @@
 | 1.1.2 | Configure MySQL database | Edit `api/.env`: DB_DATABASE=cms_website, DB_USERNAME, DB_PASSWORD | ✅ |
 | 1.1.3 | Create database | `mysql -u root -e "CREATE DATABASE cms_website"` (or use GUI) | ✅ |
 | 1.1.4 | Run initial migration | `cd api && php artisan migrate` | ✅ |
-| 1.1.5 | Install Sanctum | `cd api && composer require laravel/sanctum` | ✅ |
-| 1.1.6 | Publish Sanctum config | `cd api && php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"` | ✅ |
-| 1.1.7 | Run Sanctum migration | `cd api && php artisan migrate` | ✅ |
-| 1.1.8 | Set Sanctum stateful domains | In `api/.env`: SANCTUM_STATEFUL_DOMAINS=localhost:3001,localhost:3000 | ✅ |
-| 1.1.9 | Set SESSION_DRIVER | In `api/.env`: SESSION_DRIVER=cookie, SESSION_DOMAIN=localhost | ✅ |
+| 1.1.5 | Install JWT package | `cd api && composer require tymon/jwt-auth` | ✅ |
+| 1.1.6 | Publish JWT config | `cd api && php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"` | ✅ |
+| 1.1.7 | Generate JWT secret | `cd api && php artisan jwt:secret` | ✅ |
+| 1.1.8 | Configure JWT auth guard | Set `driver => 'jwt'` in `config/auth.php` under `api` guard | ✅ |
+| 1.1.9 | Remove Sanctum migration | Drop `personal_access_tokens` table (created by `install:api`) | ✅ |
 | 1.1.10 | Configure CORS | Edit `api/config/cors.php`: allowed_origins env, supports_credentials = true | ✅ |
 | 1.1.11 | Verify API works | `cd api && php artisan serve` → `http://localhost:8000` → 200 OK | ✅ |
 
@@ -64,11 +64,10 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 1.4.1 | Create Axios API service | Create `admin/src/services/api.ts` with baseURL, credentials, token interceptor | ✅ |
-| 1.4.2 | Add CSRF cookie exchange | Call `GET /sanctum/csrf-cookie` on app mount | ✅ |
-| 1.4.3 | Test API call from admin | Call `GET /api/settings` from admin, log result | ✅ |
-| 1.4.4 | Start both servers | Terminal 1: `cd api && php artisan serve` / Terminal 2: `cd admin && npm run dev` | ✅ |
-| 1.4.5 | Verify no CORS errors | Open `http://localhost:3001` → console shows Connected! with site settings JSON | ✅ |
+| 1.4.1 | Create Axios API service | Create `admin/src/services/api.ts` with baseURL, token interceptor (no credentials — token-based JWT) | ✅ |
+| 1.4.2 | Test API call from admin | Call `GET /api/settings` from admin, log result | ✅ |
+| 1.4.3 | Start both servers | Terminal 1: `cd api && php artisan serve` / Terminal 2: `cd admin && npm run dev` | ✅ |
+| 1.4.4 | Verify no CORS errors | Open `http://localhost:3001` → console shows Connected! with site settings JSON | ✅ |
 
 ---
 
@@ -98,14 +97,14 @@
 | 2.1.1 | Create AuthController | `api/app/Http/Controllers/Api/AuthController.php` | ✅ |
 | 2.1.2 | Create register endpoint | Validates name, email, password; returns user + token | ✅ |
 | 2.1.3 | Create login endpoint | Validates email, password; checks hash; returns user + token | ✅ |
-| 2.1.4 | Create logout endpoint | Revokes current token via `currentAccessToken()->delete()` | ✅ |
-| 2.1.5 | Create user endpoint | Returns `$request->user()` | ✅ |
+| 2.1.4 | Create logout endpoint | Invalidates JWT via `JWTAuth::invalidate()` and `JWTAuth::parseToken()->invalidate()` | ✅ |
+| 2.1.5 | Create user endpoint | Returns `auth()->user()` | ✅ |
 | 2.1.6 | Create updateUser endpoint | Validates + updates name/email | ✅ |
-| 2.1.7 | Add auth routes to api.php | POST register/login, GET user, POST logout, PUT user (all with sanctum middleware where needed) | ✅ |
+| 2.1.7 | Add auth routes to api.php | POST register/login, GET user, POST logout, PUT user (all with `auth:api` middleware where needed) | ✅ |
 | 2.1.8 | Test with curl | `curl -X POST ... /api/auth/register` → see token returned | ✅ |
 | 2.1.9 | Install Scramble API docs | `composer require dedoc/scramble`, publish config, register provider | ✅ |
-| 2.1.10 | Configure Bearer auth in docs | Enable `MiddlewareAuthSecurityStrategy` in `config/scramble.php` | ✅ |
-| 2.1.11 | Verify docs UI at /docs/api | `http://localhost:8000/docs/api` — Bearer token input visible, public/auth routes correctly tagged | ✅ |
+| 2.1.10 | Configure Bearer auth in docs | Enable `MiddlewareAuthSecurityStrategy` in `config/scramble.php` (update middleware from `auth:sanctum` → `auth:api`) | ✅ |
+| 2.1.11 | Verify docs UI at /docs/api | `http://localhost:8000/docs/api` — Bearer token input visible, public/auth routes correctly tagged (uses `auth:api` guard) | ✅ |
 
 ---
 
@@ -113,11 +112,11 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 2.2.1 | Define User TypeScript interface | `admin/src/types/index.ts`: id, name, email, role | ⬜ |
-| 2.2.2 | Create Pinia auth store | `admin/src/stores/auth.ts`: login(), logout(), fetchUser() actions | ⬜ |
-| 2.2.3 | Add Axios 401 interceptor | In `admin/src/services/api.ts`: clear token + redirect on 401 | ⬜ |
-| 2.2.4 | Create LoginView page | PrimeVue form: InputText(email) + Password + Button | ⬜ |
-| 2.2.5 | Add /login route to router | Import LoginView, add to routes array | ⬜ |
+| 2.2.1 | Define User TypeScript interface | `admin/src/types/index.ts`: id, name, email, role | ✅ |
+| 2.2.2 | Create Pinia auth store | `admin/src/stores/auth.ts`: login(), logout(), fetchUser() actions | ✅ |
+| 2.2.3 | Add Axios 401 interceptor | In `admin/src/services/api.ts`: clear token + redirect on 401 | ✅ |
+| 2.2.4 | Create LoginView page | PrimeVue form: InputText(email) + Password + Button | ✅ |
+| 2.2.5 | Add /login route to router | Import LoginView, add to routes array | ✅ |
 
 ---
 
@@ -125,12 +124,12 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 2.3.1 | Store token in localStorage | In auth store login action: `localStorage.setItem('token', data.token)` | ⬜ |
-| 2.3.2 | Restore session on mount | In main.ts: call `authStore.fetchUser()` before `app.mount()` | ⬜ |
-| 2.3.3 | Add route guard | Router `beforeEach`: redirect to /login if requiresAuth + no token | ⬜ |
-| 2.3.4 | Add guest guard | Redirect to / if already logged in and visiting /login | ⬜ |
-| 2.3.5 | Show/hide nav by auth state | In Sidebar: v-if on auth.isAuthenticated | ⬜ |
-| 2.3.6 | Verify full flow | Login → redirect → refresh → stay logged in → logout → redirect to login | ⬜ |
+| 2.3.1 | Store token in localStorage | In auth store login action: `localStorage.setItem('token', data.token)` | ✅ |
+| 2.3.2 | Restore session on mount | In main.ts: call `authStore.fetchUser()` before `app.mount()` | ✅ |
+| 2.3.3 | Add route guard | Router `beforeEach`: redirect to /login if requiresAuth + no token | ✅ |
+| 2.3.4 | Add guest guard | Redirect to / if already logged in and visiting /login | ✅ |
+| 2.3.5 | Show/hide nav by auth state | In Sidebar: v-if on auth.isAuthenticated | ✅ |
+| 2.3.6 | Verify full flow | Login → redirect → refresh → stay logged in → logout → redirect to login | ✅ |
 
 ---
 
@@ -138,19 +137,19 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 2.T.1 | Pest: register test | POST register → assert 201, assert JSON structure | ⬜ |
-| 2.T.2 | Pest: login test | POST login with valid creds → assert 200 | ⬜ |
-| 2.T.3 | Pest: invalid credentials | POST login with wrong password → assert 422 | ⬜ |
-| 2.T.4 | Pest: protected route with valid token | GET auth/user with token → assert 200 | ⬜ |
-| 2.T.5 | Pest: protected route without token | GET auth/user → assert 401 | ⬜ |
-| 2.T.6 | Pest: logout revokes token | Login → logout → try protected route → assert 401 | ⬜ |
-| 2.T.7 | Vitest: auth store login | Mock Axios, test store token/user after login | ⬜ |
-| 2.T.8 | Vitest: auth store logout | Test token cleared from localStorage | ⬜ |
-| 2.T.9 | Vitest: 401 interceptor | Mock 401 response → verify token cleared + redirect | ⬜ |
+| 2.T.1 | Pest: register test | POST register → assert 201, assert JSON structure | ✅ |
+| 2.T.2 | Pest: login test | POST login with valid creds → assert 200 | ✅ |
+| 2.T.3 | Pest: invalid credentials | POST login with wrong password → assert 422 | ✅ |
+| 2.T.4 | Pest: protected route with valid token | GET auth/user with token → assert 200 | ✅ |
+| 2.T.5 | Pest: protected route without token | GET auth/user → assert 401 | ✅ |
+| 2.T.6 | Pest: logout revokes token | Login → logout → assert token invalidated | ✅ |
+| 2.T.7 | Vitest: auth store login | Mock Axios, test store token/user after login | ✅ |
+| 2.T.8 | Vitest: auth store logout | Test token cleared from localStorage | ✅ |
+| 2.T.9 | Vitest: 401 interceptor | Mock 401 response → verify token cleared + redirect | ✅ |
 
 ---
 
-**✅ Phase 2 Done**: Admin can log in, see dashboard, log out. Token persists on refresh.
+**✅ Phase 2 Done**: Admin can log in, see dashboard, log out. JWT token (statt Sanctum) persists on refresh. Sanctum removed entirely.
 
 ---
 
@@ -206,7 +205,7 @@
 | 3.2.14 | Create admin CategoryController | `Admin/CategoryController`: full CRUD | ⬜ |
 | 3.2.15 | Create admin TagController | `Admin/TagController`: full CRUD | ⬜ |
 | 3.2.16 | Add public routes to api.php | GET pages, posts, categories, tags (no auth) | ⬜ |
-| 3.2.17 | Add admin routes to api.php | apiResource under auth:sanctum + admin prefix | ⬜ |
+| 3.2.17 | Add admin routes to api.php | apiResource under `auth:api` + admin prefix | ⬜ |
 
 ---
 
@@ -266,7 +265,7 @@
 |---|------|-------------------|--------|
 | 4.1.1 | Define Media model with fillable | name, file_name, mime_type, size, width, height, alt_text | ⬜ |
 | 4.1.2 | Create Admin/MediaController | index(paginated), store(upload + validate), destroy(delete file + DB record) | ⬜ |
-| 4.1.3 | Add media routes to api.php | GET|POST /api/admin/media, DELETE /api/admin/media/{id} (auth:sanctum) | ⬜ |
+| 4.1.3 | Add media routes to api.php | GET|POST /api/admin/media, DELETE /api/admin/media/{id} (`auth:api` middleware) | ⬜ |
 | 4.1.4 | Create storage symlink | `php artisan storage:link` | ⬜ |
 | 4.1.5 | Add file validation | Validate mimes=jpeg,png,webp,gif, max:5120 (5MB) | ⬜ |
 
@@ -385,7 +384,7 @@
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
 | 6.2.1 | Create DashboardController | `GET /api/admin/dashboard`: total_posts, pages, users, media + recent_posts + posts_per_month | ⬜ |
-| 6.2.2 | Add dashboard route | GET /api/admin/dashboard (auth:sanctum) | ⬜ |
+| 6.2.2 | Add dashboard route | GET /api/admin/dashboard (`auth:api` middleware) | ⬜ |
 | 6.2.3 | Create DashboardView | 4 stat cards (PrimeVue Card) + recent posts table + chart | ⬜ |
 | 6.2.4 | Install Chart.js or use PrimeVue Chart | `npm install chart.js` or PrimeVue Chart component | ⬜ |
 
@@ -539,8 +538,8 @@
 
 | Phase | Duration | Tasks | Status |
 |-------|----------|-------|--------|
-| 1 — Foundation | Week 1 | 11 + 7 + 11 + 5 + 2 = 36 tasks | 🔄 |
-| 2 — Authentication | Week 2 | 8 + 5 + 6 + 9 = 28 tasks | ⬜ |
+| 1 — Foundation | Week 1 | 11 + 7 + 11 + 4 + 2 = 35 tasks | ✅ |
+| 2 — Authentication | Week 2 | 8 + 5 + 6 + 9 = 28 tasks | ✅ |
 | 3 — Content CRUD | Week 3-4 | 19 + 17 + 6 + 5 + 8 = 55 tasks | ⬜ |
 | 4 — Media Library | Week 4 | 5 + 5 + 5 = 15 tasks | ⬜ |
 | 5 — Navigation & Settings | Week 5 | 4 + 10 + 7 + 3 = 24 tasks | ⬜ |

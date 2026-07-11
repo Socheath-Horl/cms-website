@@ -25,7 +25,7 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $token = $user->createToken('auth-token')->plainTextToken;
+        $token = auth('api')->login($user);
 
         return response()->json([
             'user' => $user,
@@ -40,43 +40,41 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        $token = auth('api')->attempt($validated);
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
+        if (!$token) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        $token = $user->createToken('auth-token')->plainTextToken;
-
         return response()->json([
-            'user' => $user,
+            'user' => auth('api')->user(),
             'token' => $token,
         ]);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        auth('api')->invalidate();
 
         return response()->json(['message' => 'Logged out successfully.']);
     }
 
     public function user(Request $request): JsonResponse
     {
-        return response()->json($request->user());
+        return response()->json(auth('api')->user());
     }
 
     public function updateUser(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $request->user()->id,
+            'email' => 'sometimes|string|email|max:255|unique:users,email,' . auth('api')->id(),
         ]);
 
-        $request->user()->update($validated);
+        auth('api')->user()->update($validated);
 
-        return response()->json($request->user()->fresh());
+        return response()->json(auth('api')->user()->fresh());
     }
 }
