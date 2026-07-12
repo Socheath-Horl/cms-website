@@ -163,25 +163,25 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 3.1.1 | Create Page model + migration | `php artisan make:model Page -m` | ⬜ |
-| 3.1.2 | Create Post model + migration | `php artisan make:model Post -m` | ⬜ |
-| 3.1.3 | Create Category model + migration | `php artisan make:model Category -m` | ⬜ |
-| 3.1.4 | Create Tag model + migration | `php artisan make:model Tag -m` | ⬜ |
-| 3.1.5 | Create Media model + migration | `php artisan make:model Media -m` | ⬜ |
-| 3.1.6 | Create post_tag pivot migration | `php artisan make:migration create_post_tag_table` | ⬜ |
-| 3.1.7 | Define Page migration columns | title, slug(unique), content, excerpt, status(draft/published), featured_image_id, author_id, published_at, meta_title, meta_description, softDeletes | ⬜ |
-| 3.1.8 | Define Post migration columns | Same as Page + category_id + tags relationship | ⬜ |
-| 3.1.9 | Define Media migration columns | name, file_name, mime_type, size, width, height, alt_text | ⬜ |
-| 3.1.10 | Define Category migration columns | name, slug(unique), description | ⬜ |
-| 3.1.11 | Define Tag migration columns | name, slug(unique) | ⬜ |
-| 3.1.12 | Define post_tag pivot columns | post_id FK, tag_id FK, composite PK | ⬜ |
-| 3.1.13 | Set Post model relationships | belongsTo(author), belongsTo(category), belongsToMany(tags), belongsTo(featuredImage) | ⬜ |
-| 3.1.14 | Set Page model relationships | belongsTo(author), belongsTo(featuredImage) | ⬜ |
-| 3.1.15 | Create PostFactory | `php artisan make:factory PostFactory --model=Post` | ⬜ |
-| 3.1.16 | Create PageFactory | `php artisan make:factory PageFactory --model=Page` | ⬜ |
-| 3.1.17 | Create CategoryFactory + TagFactory | `php artisan make:factory CategoryFactory --model=Category` | ⬜ |
-| 3.1.18 | Seed database | Update DatabaseSeeder: create admin user, 5 categories, 10 tags, 10 pages, 20 posts with tags | ⬜ |
-| 3.1.19 | Run migrate + seed | `php artisan migrate && php artisan db:seed` | ⬜ |
+| 3.1.1 | Create Page model + migration | `php artisan make:model Page -m` | ✅ |
+| 3.1.2 | Create Post model + migration | `php artisan make:model Post -m` | ✅ |
+| 3.1.3 | Create Category model + migration | `php artisan make:model Category -m` | ✅ |
+| 3.1.4 | Create Tag model + migration | `php artisan make:model Tag -m` | ✅ |
+| 3.1.5 | Create Media model + migration | `php artisan make:model Media -m` | ✅ |
+| 3.1.6 | Create post_tag pivot migration | `php artisan make:migration create_post_tag_table` | ✅ |
+| 3.1.7 | Define Page migration columns | title, slug(unique), content, excerpt, status(draft/published), featured_image_id, author_id, published_at, meta_title, meta_description, softDeletes | ✅ |
+| 3.1.8 | Define Post migration columns | Same as Page + category_id + tags relationship | ✅ |
+| 3.1.9 | Define Media migration columns | name, file_name, mime_type, size, width, height, alt_text | ✅ |
+| 3.1.10 | Define Category migration columns | name, slug(unique), description | ✅ |
+| 3.1.11 | Define Tag migration columns | name, slug(unique) | ✅ |
+| 3.1.12 | Define post_tag pivot columns | post_id FK, tag_id FK, composite PK | ✅ |
+| 3.1.13 | Set Post model relationships | belongsTo(author), belongsTo(category), belongsToMany(tags), belongsTo(featuredImage) | ✅ |
+| 3.1.14 | Set Page model relationships | belongsTo(author), belongsTo(featuredImage) | ✅ |
+| 3.1.15 | Create PostFactory | `php artisan make:factory PostFactory --model=Post` | ✅ |
+| 3.1.16 | Create PageFactory | `php artisan make:factory PageFactory --model=Page` | ✅ |
+| 3.1.17 | Create CategoryFactory + TagFactory | `php artisan make:factory CategoryFactory --model=Category` | ✅ |
+| 3.1.18 | Seed database | Update DatabaseSeeder: create admin user, 5 categories, 10 tags, 10 pages, 20 posts with tags | ✅ |
+| 3.1.19 | Run migrate + seed | `php artisan migrate && php artisan db:seed` | ✅ |
 
 ---
 
@@ -540,7 +540,7 @@
 |-------|----------|-------|--------|
 | 1 — Foundation | Week 1 | 11 + 7 + 11 + 4 + 2 = 35 tasks | ✅ |
 | 2 — Authentication | Week 2 | 8 + 5 + 6 + 9 = 28 tasks | ✅ |
-| 3 — Content CRUD | Week 3-4 | 19 + 17 + 6 + 5 + 8 = 55 tasks | ⬜ |
+| 3 — Content CRUD | Week 3-4 | 19 + 17 + 6 + 5 + 8 = 55 tasks | 🔄 (Step 3.1 ✅) |
 | 4 — Media Library | Week 4 | 5 + 5 + 5 = 15 tasks | ⬜ |
 | 5 — Navigation & Settings | Week 5 | 4 + 10 + 7 + 3 = 24 tasks | ⬜ |
 | 6 — Admin Fine-Tuning | Week 5-6 | 5 + 4 + 5 + 3 = 17 tasks | ⬜ |
