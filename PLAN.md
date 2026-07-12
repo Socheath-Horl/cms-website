@@ -105,6 +105,8 @@
 | 2.1.9 | Install Scramble API docs | `composer require dedoc/scramble`, publish config, register provider | ✅ |
 | 2.1.10 | Configure Bearer auth in docs | Enable `MiddlewareAuthSecurityStrategy` in `config/scramble.php` (update middleware from `auth:sanctum` → `auth:api`) | ✅ |
 | 2.1.11 | Verify docs UI at /docs/api | `http://localhost:8000/docs/api` — Bearer token input visible, public/auth routes correctly tagged (uses `auth:api` guard) | ✅ |
+| 2.1.12 | Add refresh endpoint | Create `AuthController::refresh()`, register `POST /api/auth/refresh` with `auth:api` middleware | ⬜ |
+| 2.1.13 | Add token refresh to admin Axios interceptor | On 401, attempt refresh before redirecting to login | ⬜ |
 
 ---
 

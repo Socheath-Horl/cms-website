@@ -141,9 +141,10 @@ Browser (Admin) ──▶ admin:3001   ──▶ api:8000 ──▶ MySQL
 ### Authentication (no prefix guard)
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | /api/auth/register | Register user |
-| POST | /api/auth/login | Login → returns token |
-| POST | /api/auth/logout | Logout (revoke token) |
+| POST | /api/auth/register | Register user → returns user + token |
+| POST | /api/auth/login | Login → returns user + token |
+| POST | /api/auth/refresh | Refresh token → returns new token (requires current token) |
+| POST | /api/auth/logout | Logout (invalidate current token) |
 | GET | /api/auth/user | Get authenticated user |
 | PUT | /api/auth/user | Update profile |
 

@@ -54,6 +54,15 @@ class AuthController extends Controller
         ]);
     }
 
+    public function refresh(): JsonResponse
+    {
+        $token = auth('api')->refresh();
+
+        return response()->json([
+            'token' => $token,
+        ]);
+    }
+
     public function logout(Request $request): JsonResponse
     {
         auth('api')->invalidate();
