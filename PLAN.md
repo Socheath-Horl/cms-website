@@ -189,23 +189,23 @@
 
 | # | Task | Commands / Notes | Status |
 |---|------|-------------------|--------|
-| 3.2.1 | Create PostResource | `api/app/Http/Resources/PostResource.php` with all fields + relationships | ⬜ |
-| 3.2.2 | Create PageResource | `api/app/Http/Resources/PageResource.php` | ⬜ |
-| 3.2.3 | Create CategoryResource + TagResource | `api/app/Http/Resources/CategoryResource.php`, `TagResource.php` | ⬜ |
-| 3.2.4 | Create UserResource | `api/app/Http/Resources/UserResource.php` | ⬜ |
-| 3.2.5 | Create MediaResource | `api/app/Http/Resources/MediaResource.php` | ⬜ |
-| 3.2.6 | Create StorePostRequest | `php artisan make:request StorePostRequest` with validation rules | ⬜ |
-| 3.2.7 | Create StorePageRequest | `php artisan make:request StorePageRequest` with validation rules | ⬜ |
-| 3.2.8 | Create public PostController | `Api/PostController`: index(paginated, published only, with relations) + show(by slug) | ⬜ |
-| 3.2.9 | Create public PageController | `Api/PageController`: index + show(by slug) | ⬜ |
-| 3.2.10 | Create public CategoryController | `Api/CategoryController`: index + postsBySlug | ⬜ |
-| 3.2.11 | Create public TagController | `Api/TagController`: index + postsBySlug | ⬜ |
-| 3.2.12 | Create admin PostController | `Admin/PostController`: full CRUD with PostResource | ⬜ |
-| 3.2.13 | Create admin PageController | `Admin/PageController`: full CRUD with PageResource | ⬜ |
-| 3.2.14 | Create admin CategoryController | `Admin/CategoryController`: full CRUD | ⬜ |
-| 3.2.15 | Create admin TagController | `Admin/TagController`: full CRUD | ⬜ |
-| 3.2.16 | Add public routes to api.php | GET pages, posts, categories, tags (no auth) | ⬜ |
-| 3.2.17 | Add admin routes to api.php | apiResource under `auth:api` + admin prefix | ⬜ |
+| 3.2.1 | Create PostResource | `api/app/Http/Resources/PostResource.php` with all fields + relationships | ✅ |
+| 3.2.2 | Create PageResource | `api/app/Http/Resources/PageResource.php` | ✅ |
+| 3.2.3 | Create CategoryResource + TagResource | `api/app/Http/Resources/CategoryResource.php`, `TagResource.php` | ✅ |
+| 3.2.4 | Create UserResource | `api/app/Http/Resources/UserResource.php` | ✅ |
+| 3.2.5 | Create MediaResource | `api/app/Http/Resources/MediaResource.php` | ✅ |
+| 3.2.6 | Create StorePostRequest | `php artisan make:request StorePostRequest` with validation rules | ✅ |
+| 3.2.7 | Create StorePageRequest | `php artisan make:request StorePageRequest` with validation rules | ✅ |
+| 3.2.8 | Create public PostController | `Api/PostController`: index(paginated, published only, with relations) + show(by slug) | ✅ |
+| 3.2.9 | Create public PageController | `Api/PageController`: index + show(by slug) | ✅ |
+| 3.2.10 | Create public CategoryController | `Api/CategoryController`: index + postsBySlug | ✅ |
+| 3.2.11 | Create public TagController | `Api/TagController`: index + postsBySlug | ✅ |
+| 3.2.12 | Create admin PostController | `Admin/PostController`: full CRUD with PostResource | ✅ |
+| 3.2.13 | Create admin PageController | `Admin/PageController`: full CRUD with PageResource | ✅ |
+| 3.2.14 | Create admin CategoryController | `Admin/CategoryController`: full CRUD | ✅ |
+| 3.2.15 | Create admin TagController | `Admin/TagController`: full CRUD | ✅ |
+| 3.2.16 | Add public routes to api.php | GET pages, posts, categories, tags (no auth) | ✅ |
+| 3.2.17 | Add admin routes to api.php | apiResource under `auth:api` + admin prefix | ✅ |
 
 ---
 
